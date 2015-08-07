@@ -1,0 +1,369 @@
+<?php import("@.ORG.Sidebar"); $sidebar=new sidebar();　?>
+<div id="time_now" style="display:none;" ></div>
+<div id="sidebar">
+    <div id="mail_inside" class="box">
+        <div class="title"><span class="left"></span>站内消息<span class="right"><a href="#"  rel="?m=message&a=add" id="message_add"  title="发送消息" >发送</a></span> </div>
+        <div class="content">
+            <ul id="my_notepad" class="messageul">
+                <?php $message_array=$sidebar->get_message(); ?>
+                <li><span class="ico_msg"></span>未读消息：<a href="?m=message&a=index&type=unread" target="_blank"><span style="color: red"><?php echo $message_array['count'];  ?> 条未读</span></a></li>
+                <li><span class="ico_no_msg"></span>已读消息：<a href="?m=message&a=index&type=read" target="_blank"><?php echo $message_array['have_count']; ?> 条</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="report" class="box">
+        <div class="title"><span class="left"></span>数据统计</div>
+        <div class="content">
+            <ul id="my_report" class="list_ul">
+                <li>今日呼入数： <a href="{:U('Inbound/countCallIn')}" target="_blank"><span id="cousmoer" style="color: red;"></span></a></li>
+                <li>待处理邮件： <a href="?m=email&a=emailList" target="_blank"><span id="get_email" style="color: red;"></span></a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="search_customer" class="box">
+        <div class="title"><span class="left"></span>搜索客户<span class="right"></span></div>
+        <div class="content">
+            <div class="form">
+                <form name="sidercustomersearch" action="" method="get" target="_blank">
+                    <input type="hidden" name="m" value="customer" />
+                    <input type="hidden" name="a" value="index" />
+                    <table id="siderCusSearch">
+                        <tr>
+                            <td>ID</td>
+                            <td><input type="text" value="{$customerid}" id="customerid" class="txt" name="customerid"></td>
+                        </tr>
+                        <tr>
+                            <td>姓名</td>
+                            <td><input type="text" value="{$customer}" id="customer" class="txt" name="customer"></td>
+                        </tr>
+                        <tr>
+                            <td>手机</td>
+                            <td><input type="text" value="{$mobilephone}" id="mobilephone" class="txt" name="mobilephone"></td>
+                        </tr>
+                        <tr>
+                            <td>固定电话</td>
+                            <td><input type="text" value="{$landline}" id="landline" class="txt" name="landline"></td>
+                        </tr>
+                        <tr>
+                            <td>电子邮件</td>
+                            <td><input type="text" value="{$email}" id="email" class="txt" name="email"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <input name="submit" id="submit" class="btn" type="submit" value="搜索"/>
+                            </td>
+                        </tr>
+                    </table>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="notepad" class="box">
+        <div class="title"><span class="left"></span>备忘录<span class="right"><a href="?m=notepad"  target="_blank" id="notepad_more" >更多</a></span><span class="right"><a href="#"  rel="?m=notepad&a=add" id="notepad_add"  title="新建备忘录" >新建</a></span></div>
+        <div class="content">
+            <ul id="my_notepad" class="list_ul">
+                <?php $list=$sidebar->notepad();?>
+                {volist name="list" id="vo"}
+                <li><a class="notepad_view" rel="?m=notepad&a=view&id={$vo.id}" href="#" title="{$vo.subject}"><?php echo $sidebar->get_word($vo['subject'],'20'); ?></a></li>
+                {/volist}
+            </ul>
+        </div>
+    </div>
+</div>
+<script>
+    $(function(){
+        ajaxGetReports();
+        ajaxGetEmail();
+        
+    });
+    $('#notepad_add').click(function() {
+        var url = $(this).attr('rel');
+        var title = $(this).attr('title');
+       
+        $.ajax({
+            url:url,
+            dataType: 'html',
+            success: function(data){               
+                if(data){
+                    art.dialog({
+                        id:'notepad_add',
+                        title: title,
+                        lock: false,
+                        left:5,
+                        top:200,
+                        fixed: true,
+                        width: 245,
+                        padding: 0,
+                        background: 'white', // 背景色
+                        opacity: 0.19, // 透明度
+                        content: data
+//                        close:function(){
+//                            window.location.reload();
+//                        }
+                    });
+                }
+                $(document).ready(function(){
+                    jQuery("#add_notepad").validationEngine();
+                });
+            }
+        });
+        return false;
+    });
+	
+    function ajaxGetReports(){
+        $.ajax({
+            type: "POST",
+            url: "?m=report&a=ajaxgetreport",
+            cache:false,
+            success: function(msg){
+                $("#cousmoer").html(msg);
+            }
+        });
+    }
+    
+    $(".notepad_view").live("click",function(){
+        var url = $(this).attr('rel');
+        $.ajax({
+            url:url,
+            dataType: 'html',
+            success: function(data){
+                //console.log(data);
+                if(data){
+                    if(art.dialog.list['notepad_view']){
+                        art.dialog.list['notepad_view'].close();
+                    }
+                    art.dialog({
+                        id:'notepad_view',
+                        title: '查看备忘录',
+                        lock: false,
+                        left:5,
+                        top:200,
+                        fixed: true,
+                        width: 220,
+                        padding: 0,
+                        background: 'white', // 背景色
+                        opacity: 0.19, // 透明度
+                        content: data
+                    });
+                }
+            }
+        });
+        return false;
+    });
+    
+    $('#message_add').click(function() {
+        var url = $(this).attr('rel');
+        $.ajax({
+            url:url,
+            dataType: 'html',
+            success: function(data){               
+                if(data){
+                    art.dialog({
+                        title: '发送站内消息',
+                        lock: true,
+                        width: 780,
+                        content: data,
+                        close:function(){
+                            window.location.reload();
+                        }
+                    });
+                   
+                }
+                $(document).ready(function(){
+                    jQuery("#add_message").validationEngine();
+                });
+            }
+        });
+        return false;
+    });
+    $('#open2all_1').live('click',function(){
+        $('#receiver').removeClass();
+        $("#receiver").prevAll().remove('.receiverformError');
+        $("#receiver").attr("disabled",true);
+    });
+    $('#open2all_2').live('click',function(){
+        $('#receiver').addClass("validate[required]");
+        $("#receiver").attr("disabled",false);
+    });
+  
+    var time_array=<?php echo $sidebar->appointment('jsaon'); ?>;
+    function refreshCalendarClock(){
+
+         var timestamp = Date.parse(new Date());
+         var timestamp_ctime=timestamp/1000;
+
+        var time_5=pro_time_5(timestamp_ctime);
+        var time_3=pro_time_3(timestamp_ctime);
+        var time_1=pro_time_1(timestamp_ctime);
+        var art_count=$('.aui_content').length;
+        var h='';
+        if(art_count=='1'){
+            h='100%';
+        }
+        else{
+            h=100-(25*art_count)+'%';
+        }
+        if('0%'>h){
+            h='100%';
+            art_count=0;
+        }
+        if(time_array != null && time_array !=""){
+            $.each(time_array, function (i, n) {
+                if(n.due_date==time_5){
+                    art.dialog({
+                        title: '预约提醒',
+                        content: '<div style="font-size: 16px;line-height: 30px;">用户：<a href="?m=caselog&a=edit&caselog_id='+n.caselog_id+'&customerid='+n.customerid+'" target="_blank">'+n.customername+'</a></br>预约时间：'+n.due_date+'</br>离预约时间还有5分钟</div>',
+                        width: 290,
+                        height: 140,
+                        left: '100%',
+                        top: h,
+                        fixed: true,
+                        drag: false,
+                        resize: false,
+                        time:10
+                    })
+                    art_count=art_count+1;
+                }
+                else if(n.due_date==time_3){
+                    art.dialog({
+                        title: '预约提醒',
+                        content: '<div style="font-size: 16px;line-height: 30px;">用户：<a href="?m=caselog&a=edit&caselog_id='+n.caselog_id+'&customerid='+n.customerid+'" target="_blank">'+n.customername+'</a></br>预约时间：'+n.due_date+'</br>离预约时间还有3分钟</div>',
+                        width: 290,
+                        height: 140,
+                        left: '100%',
+                        top: h,
+                        fixed: true,
+                        drag: false,
+                        resize: false,
+                        time:10
+                    })
+                    art_count=art_count+1;
+                }
+                else if(n.due_date==time_1){
+                    art.dialog({
+                        title: '预约提醒',
+                        content: '<div style="font-size: 16px;line-height: 30px;">用户：<a href="?m=caselog&a=edit&caselog_id='+n.caselog_id+'&customerid='+n.customerid+'" target="_blank">'+n.customername+'</a></br>预约时间：'+n.due_date+'</br>离预约时间还有1分钟</div>',
+                        width: 290,
+                        height: 140,
+                        left: '100%',
+                        top: h,
+                        fixed: true,
+                        drag: false,
+                        resize: false,
+                        time:10
+                    })
+                    art_count=art_count+1;
+                }
+            });
+        }
+    };
+    refreshCalendarClock();
+    setInterval('refreshCalendarClock()',1000);
+    setInterval('ajaxGetEmail()',300000); //查收电子邮件 600000 = 10分钟
+    
+    function ajaxGetEmail(){
+
+        $.ajax({
+            url: "?m=email&a=get_email",
+            cache:false,
+            dataType: 'json',
+            success: function(msg){
+                $('#get_email').html(msg+" 封待处理");
+            }
+        }); 
+    }
+    
+    function pro_time_5(time){
+        var timestamp_ctime_5=time+5*60;
+        var date=new Date(timestamp_ctime_5*1000);
+        var yy=pro_year(date);
+        var month=pro_month(date);
+        var day=pro_day(date);
+        var now_time=pro_time(date);
+        var time_5=yy+"-"+month+"-"+day+" "+now_time;
+        return time_5;
+    }
+    
+    function pro_time_3(time){
+        var timestamp_ctime_3=time+3*60;
+        var date=new Date(timestamp_ctime_3*1000);
+        var yy=pro_year(date);
+        var month=pro_month(date);
+        var day=pro_day(date);
+        var now_time=pro_time(date);
+        var time_3=yy+"-"+month+"-"+day+" "+now_time;
+        return time_3;
+    }
+    
+    function pro_time_1(time){
+        var timestamp_ctime_1=time+1*60;
+        var date=new Date(timestamp_ctime_1*1000);
+        var yy=pro_year(date);
+        var month=pro_month(date);
+        var day=pro_day(date);
+        var now_time=pro_time(date);
+        var time_1=yy+"-"+month+"-"+day+" "+now_time;
+        return time_1;
+    }
+    
+    function pro_year(date){
+        var yy = ( date.getYear() < 1900 ) ? ( 1900 + date.getYear() ) : date.getYear();
+        return yy;
+    }
+    
+    function pro_month(date){
+        var mm = date.getMonth();
+        var mmm=new Array();
+        mmm[0]="01";
+        mmm[1]="02";
+        mmm[2]="03";
+        mmm[3]="04";
+        mmm[4]="05";
+        mmm[5]="06";
+        mmm[6]="07";
+        mmm[7]="08";
+        mmm[8]="09";
+        mmm[9]="10";
+        mmm[10]="11";
+        mmm[11]="12";
+        mm=mmm[mm];
+        return mm;
+    }
+    function pro_day(date){
+        var mmm=new Array();
+        mmm[1]="01";
+        mmm[2]="02";
+        mmm[3]="03";
+        mmm[4]="04";
+        mmm[5]="05";
+        mmm[6]="06";
+        mmm[7]="07";
+        mmm[8]="08";
+        mmm[9]="09";
+        var dd=date.getDate();
+        if(dd <10){
+            dd=mmm[dd];
+        }
+        return dd;
+    }
+    function pro_time(date){
+        var hh = date.getHours();
+        var mm = date.getMinutes();
+        var ss = date.getTime() % 60000;
+        ss = (ss - (ss % 1000)) / 1000;
+        var clock ="";
+        if (hh < 10) clock += '0';
+        clock += hh+':';
+        if (mm < 10) clock += '0';
+        clock += mm+':';
+        if (ss < 10) clock += '0';
+        clock += ss;
+        return clock;
+    }
+                       
+</script>
+
+
+
+

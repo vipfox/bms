@@ -1,0 +1,31 @@
+
+	
+#scale {width:500px;}	
+#sample5 {
+	border:none;
+	height:37px;
+	position:relative;
+        *position: inherit;
+	background-image:url(../img/rangeBar.png);
+	background-position:10px 10px;
+	background-repeat:no-repeat;
+	
+}
+
+
+ #sample5 td {
+	border:none; background-color: transparent;}
+
+.rangeGrip {
+	width:10px;
+	height:19px;
+	cursor:e-resize;
+	background-image:url(../img/slider.png);
+	z-index:8}
+
+.rangeDrag .rangeGrip,.rangeGrip:hover {
+	background-position:right}
+
+#sample5Text {
+	color:#034a92;
+	float:right}

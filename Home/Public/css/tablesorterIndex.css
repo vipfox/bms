@@ -1,0 +1,24 @@
+/* 
+    Document   : tablesorterIndex
+    Created on : 2012-12-20, 11:45:06
+    Author     : albafica.wang
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+table.tablesorterIndex thead tr th{
+/*    border-right: #fff solid 1px;*/
+}
+table.tablesorterIndex thead tr .header {
+	background-image: url(../Js/jquery/jquery-tablesorter/themes/blue/bg.gif);
+	background-repeat: no-repeat;
+	background-position: center right;
+	cursor: pointer;
+}
+table.tablesorterIndex thead tr .headerSortUp {
+	background-image: url(../Js/jquery/jquery-tablesorter/themes/blue/asc.gif);
+}
+table.tablesorterIndex thead tr .headerSortDown {
+	background-image: url(../Js/jquery/jquery-tablesorter/themes/blue/desc.gif);
+}
+

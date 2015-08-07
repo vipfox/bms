@@ -1,0 +1,37 @@
+<!-- layout::layout:header::60 -->
+<table id="public" class="myListTable" border="5" cellpadding="5" cellspacing="1" align="center" style="">
+    <tbody>
+        <tr><td class="tb">
+                <input type="hidden" id="tim" name="tim" value="{$waitSecond}" />
+                <input type="hidden" id="ju" name="ju" value="{$jumpUrl}" />
+                <div><span style="font-weight:bold">{$msgTitle}</span></div>
+                <div>&nbsp;</div>
+    <present name="message" >
+        <div>
+            <span style="color:blue">{$message}</span>
+        </div>
+    </present>
+    <div>&nbsp;</div>
+    <div>
+        系统将在 <span style="color:blue;font-weight:bold" id="ShowDiv"></span> 秒后自动跳转,如果不想等待,直接<a href="{$jumpUrl}">点击这里跳转</a> 
+    </div>
+</td></tr></tbody>
+</table>
+{literal}
+<script language="javascript">
+    $(function(){
+        var secs = $("#tim").val(); //倒计时的秒数
+        for(var i=secs;i>=0;i--)
+        {
+            window.setTimeout('doUpdate(' + i + ')', (secs-i) * 1000);
+        }
+    });
+    function doUpdate(num)
+    {
+        var url= $("#ju").val();
+        document.getElementById('ShowDiv').innerHTML = num;
+        if(num == 0) { window.location=url; }
+    }
+</script>
+{/literal}
+<!-- layout::layout:footer::60 -->

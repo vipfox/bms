@@ -1,0 +1,64 @@
+<!-- layout::layout:header::60 -->
+<!-- layout::layout:sidebar::0 -->
+
+<div id="content">
+
+    <div id="sub_menu" class="box">
+        <div class="title"><span class="left"></span>用户管理</div>
+        <div class="content">
+            <ul class="icon_list">
+                <li><a class="drop_down" href="?m=user&a=add"><img align="absmiddle" src="{$Think.config.PUBLIC_URL}/images/menu/add.png"> 用户添加</a></li>
+                <li><a class="drop_down" href="?m=system"><img align="absmiddle" src="{$Think.config.PUBLIC_URL}/images/menu/back.png"> 返回</a></li>
+                <div class="clear"></div>
+            </ul>
+        </div>
+    </div>
+    <div id="sub_menu" class="box">
+        <div class="title"><span class="left"></span>用户管理列表</div>
+        <div class="content">
+            <form id="bulk_update" method="POST" action="?m=user&a=bulk_update">
+                
+                <table>
+                    <thead>
+                        <tr>
+                             <td colspan="11">
+                                <input type="submit" class="btn submit" value="批量更新">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><?php echo UserModel::getAttribute('id'); ?></th>
+                            <th><?php echo UserModel::getAttribute('nickname'); ?></th>
+<!--                            <th><?php echo UserModel::getAttribute('firstname'); ?></th>
+                            <th><?php echo UserModel::getAttribute('lastname'); ?></th>-->
+                            <th><?php echo UserModel::getAttribute('username'); ?></th>
+                            <th><?php echo UserModel::getAttribute('password'); ?></th>
+                            <th><?php echo UserModel::getAttribute('rolename'); ?></th>
+                            <th><?php echo UserModel::getAttribute('usercode'); ?></th>
+                            <th><?php echo UserModel::getAttribute('listorder'); ?></th>
+                            <th><?php echo UserModel::getAttribute('active'); ?></th>
+                            <th><?php echo UserModel::getAttribute('operating'); ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {$list}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="11">
+                                <input type="submit" class="btn submit" value="批量更新">
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+
+</div>
+<script>
+     $('.submit').live('click',function(){
+       var dialog = art.dialog({lock: true,cancel: false,content:"系统正在批量更新中，请耐心等待...</br><div style='text-align:center;'><img src='public/images/menu/loading.gif'></div>"});
+    });
+</script>
+<!-- layout::layout:footer::60 -->

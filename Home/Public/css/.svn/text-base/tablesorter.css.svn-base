@@ -1,0 +1,62 @@
+﻿/* 表格排序显示的样式 */
+/*--------------------
+change history
+20121218 albafica  change the path of the bgimage to suit the header    line37,40&53
+----------------------*/
+table.tablesorter {
+	font-family:arial,'宋体';
+	background-color: #CDCDCD;
+	font-size: 12px;
+	width: 100%;
+	text-align: left;
+        border-spacing:1px;
+}
+table.tablesorter thead tr th, table.tablesorter tfoot tr th {
+	background-color: #e6EEEE;
+	border: 1px solid #FFF;
+	font-size: 12px;
+	padding: 4px;
+}
+table.tablesorter thead tr .header {
+	background-image: url(../Js/jquery/jquery-tablesorter/themes/blue/bg.gif);
+	background-repeat: no-repeat;
+	background-position: center right;
+	cursor: pointer;
+}
+table.tablesorter tbody td {
+	color: #3D3D3D;
+	padding: 4px;
+	background-color: #FFF;
+	vertical-align: middle;
+}
+
+table.tablesorter tbody tr.odd td {
+	background-color:#F0F0F6;
+}
+table.tablesorter thead tr .headerSortUp {
+	background-image: url(../Js/jquery/jquery-tablesorter/themes/blue/asc.gif);
+}
+table.tablesorter thead tr .headerSortDown {
+	background-image: url(../Js/jquery/jquery-tablesorter/themes/blue/desc.gif);
+}
+table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSortUp {
+background-color: #8dbdd8;
+}
+table.tablesorter tfoot td {
+	color: #3D3D3D;
+	padding: 4px;
+	background-color: #FFF;
+	vertical-align: top;
+        font-style: normal;
+}
+/*table.tablesorter thead tr .header {
+background-image: url(../Js/jquery/jquery-tablesorter/themes/blue/bg.gif);
+background-repeat: no-repeat;
+background-position: center right;
+cursor: pointer;
+}*/
+table.tablesorter tbody td.td_left { text-align:left;font-weight:bold; background:#F4F4F4;width:12%;}
+table.tablesorter tbody td.td_left2 { text-align:left; width:38%;}
+table.tablesorter tbody td.td_left3 {text-align:left;font-weight:bold; background:#F4F4F4;width:25%;}
+table.tablesorter tbody td.td_left4 {text-align:left;width:80%;}
+table.tablesorter tbody td.td_left4 input.points{width:8%;}

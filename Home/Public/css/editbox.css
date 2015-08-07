@@ -1,0 +1,42 @@
+/* 
+    Document   : editbox
+    Created on : 2012-12-18, 11:29:41
+    Author     : albafica.wang
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.editbox{
+    border: 1px solid #99BBE8;
+    display: block;
+    font-size: 12px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    padding: 0;
+    width: auto;
+}
+
+.box-header {
+    background: url("../images/panel_title.png") repeat-x scroll 0 0 transparent;
+    border-bottom: 1px solid #99BBE8;
+    color: #15428B;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 15px;
+    padding: 5px;
+}
+
+.box-title {
+    background: url("../images/blank.gif") no-repeat scroll 0 0 transparent;
+}
+
+.box-body {
+    background: none repeat scroll 0 0 #FAFAFA;
+    border-top-width: 1px;
+    overflow: auto;
+    padding: 5px;
+}
+
+div.wide.form .editbox label{
+    width: auto;
+}

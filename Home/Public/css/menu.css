@@ -1,0 +1,38 @@
+.jsddm
+{	margin: 0;
+  padding: 0;}
+
+
+
+/*.jsddm li a:hover
+{	
+    background: #24313C
+}*/
+
+.jsddm li ul
+{	margin: 0;
+  padding: 0;
+  position: absolute;
+  visibility: hidden;
+  border-top: 1px solid white;
+  width:80px;
+}
+
+.jsddm li ul li
+{
+    float: none;  display: inline;
+}
+
+.jsddm li ul li a
+{	
+/*    width: auto;*/
+
+
+}
+
+
+.jsddm li ul li a:hover
+{	
+
+    background: #8EA344
+}

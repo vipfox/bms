@@ -1,0 +1,33 @@
+<!-- layout::layout:header::60 -->
+<!-- layout::layout:sidebar::0 -->
+<div id="content">
+    <div id="sub_menu" class="box">
+        <div class="title"><span class="left"></span>用户管理</div>
+        <div class="content">
+            <ul class="icon_list">
+                <li><a class="drop_down" href="?m=user&a=index"><img align="absmiddle" src="{$Think.config.PUBLIC_URL}/images/menu/back.png"> 返回</a></li>
+                <div class="clear"></div>
+            </ul>
+        </div>
+    </div>
+
+    <div id="from" class="box">
+        <div class="title"><span class="left"></span>用户添加</div>
+        <div class="content">
+            <form action="{:U('insert')}" id="adduser" method="POST">
+                <!-- layout::_form::0 -->
+            </form>
+        </div>
+    </div>
+</div>
+
+<script language="javascript">
+ 
+    $(document).ready(function(){
+        $("#adduser").validationEngine();
+    });    
+
+</script>
+
+
+<!-- layout::layout:footer::60 -->

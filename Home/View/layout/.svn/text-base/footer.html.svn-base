@@ -1,0 +1,5 @@
+    </div>
+            <div id="footer" class="clearfix">{$Think.config.CRM_CopyRight}</div>
+        </div>
+    </body>
+</html>

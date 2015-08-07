@@ -1,0 +1,56 @@
+/* 
+    Document   : choiceAgent
+    Created on : 2012-11-9, 17:43:30
+    Author     : albafica.wang
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.agentListDiv {
+     float:left; 
+     padding-right: 20px;
+/*     border-right: 1px solid #333333; */
+     height:450px; 
+     overflow-x : hidden;
+     overflow-y : auto;
+}
+.agentListDiv label{
+    white-space: nowrap;
+}
+
+.checkedassign_userDiv{
+    float:right; 
+    padding-left:5px; 
+    padding-right: 20px;
+    width:100px; 
+    height:450px; 
+    overflow-x : hidden;
+    overflow-y : auto;
+    border-left: 2px solid #EEEEEE;
+    word-break:break-all;
+}
+
+.callplanListDiv {
+     float:left; 
+     padding-right: 20px;
+/*     border-right: 1px solid #333333; */
+     height:450px; 
+     overflow-x : hidden;
+     overflow-y : auto;
+}
+.callplanListDiv label{
+    white-space: nowrap;
+}
+
+.checkedassign_callplanDiv{
+    float:right; 
+    padding-left:5px; 
+    padding-right: 20px;
+    width:100px; 
+    height:450px; 
+    overflow-x : hidden;
+    overflow-y : auto;
+    border-left: 2px solid #EEEEEE;
+    word-break:break-all;
+}
+

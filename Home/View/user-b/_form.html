@@ -1,0 +1,204 @@
+<div class="form wide clearfix">
+    <div class="editbox">
+        <div class="box-header">
+            <div class="box-title">基本信息</div>
+        </div>
+        <div class="box-body">
+            <table id="myListTable" class="tablesorter" cellspacing="1" cellpadding="0" border="0">
+                <tbody>
+                    <tr>
+                        <td class="td_left">*<?php echo UserModel::getAttribute('parentid'); ?></td>
+                        <td class="td_left2"><select name="parentid" id="parentid" size="10" style="width:200px;height:165px;" >
+                                <option value="0">===========顶级帐号===============</option>
+                                {$user_list}
+                            </select>
+                        </td>
+                        <td class="td_left">*<?php echo UserModel::getAttribute('group'); ?></td>
+                        <td class="td_left2">
+                            <select name="group_id[]" multiple  id="group_id" size="10" style="width:180px;height:165px;" >
+                                <option value="0">=========用户组=========</option>
+                                <?php 
+                                foreach($group_list as $key=>$value){
+                                echo "<option value='$value[groupid]'";
+                                              if(is_array($select_group)){ echo in_array($value[groupid],$select_group)?'selected':'';} 
+
+                                              echo ">┣".$value['groupname']."</option>";
+                                }
+                                ?>
+                            </select> 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td_left">
+                            *<?php echo UserModel::getAttribute('role'); ?>
+                        </td>
+                        <td class="td_left2"> {$role}</td>
+                        <td class="td_left">*<?php echo UserModel::getAttribute('nickname'); ?></td>
+                        <td class="td_left2"><input name="nickname" id="nickname" type="text" value="{$user.nickname}" class="validate[required, minSize[1], maxSize[18]]" /></td>
+                    </tr>
+                    <tr>
+                        <td class="td_left">
+                            *<?php echo UserModel::getAttribute('username'); ?></td>
+                        <td class="td_left2">
+                            <input name="username" id="username" type="text" value="{$user.username}" class="validate[required, minSize[1], maxSize[18]]" /></td>
+                        <td class="td_left"><?php echo UserModel::getAttribute('usercode'); ?></td>
+                        <td class="td_left2"> <input name="usercode" id="usercode" type="text" value="{$user.usercode}"  /></td>
+                    </tr>
+                    <tr>
+                        <td class="td_left">
+                            *<?php echo UserModel::getAttribute('password'); ?></td>
+                        <td class="td_left2">
+                            <input name="password" id="password" type="password" value="{$user.password}" class="validate[required, minSize[8], maxSize[50]]" /></td>
+                        <td class="td_left">
+                            <?php echo UserModel::getAttribute('firstname'); ?>
+                        </td>
+                        <td class="td_left2">
+                            <input name="firstname" id="firstname" type="text" value="{$user.firstname}" /> 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td_left">*<?php echo UserModel::getAttribute('confirm_password'); ?></td>
+                        <td class="td_left2"><input name="confirm_password" id="confirm_password" type="password" value="{$user.password}" class="validate[required,equals[password]]" /></td>
+                        <td class="td_left"><?php echo UserModel::getAttribute('lastname'); ?></td>
+                        <td class="td_left2"><input name="lastname" id="lastname" type="text" value="{$user.lastname}" /></td>
+                    </tr>
+                    <tr>
+                        <td class="td_left">*<?php echo UserModel::getAttribute('email'); ?></td>
+                        <td class="td_left2"><input name="email" id="email" type="text" value="{$user.email}" class="validate[required, minSize[3], maxSize[100]]" /></td>
+                        <td class="td_left"><?php echo UserModel::getAttribute('listorder'); ?></td>
+                        <td class="td_left2"> <input name="listorder" id="listorder" type="text" value="{$user.listorder}" /></td>
+                    </tr>
+                    <tr>
+                        <td class="td_left">*<?php echo UserModel::getAttribute('active'); ?></td>
+                        <td class="td_left2"> {$active}</td>
+                        <td class="td_left">分机号</td>
+                        <td class="td_left2">{$deviceId}</td>
+                    </tr>
+                    {if condition=" $type=='edit'"}
+                    <tr>
+                        <td class="td_left"><?php echo UserModel::getAttribute('purview'); ?></td>
+                        <td class="td_left2" colspan="3">
+                            <div id="access" class="box" style="width:98%;float: left;margin-left: 0px;">
+                                <div class="list clearfix">
+                                    <ul>
+                                        <div id        <?php 
+                                             if(is_array($nodes[0]['childs'])) {
+                                             foreach($nodes[0]['childs'] as $contraller) { ?>
+                                             <ol class="contraller">
+                                                ├─<label title="<?php echo $contraller['title']; ?>">
+                                                    <input class="contraller" <?php if(in_array($contraller['id'], $access)){echo 'checked';}?> type="checkbox" name="<?php echo $contraller['title']; ?>" value="true" level ="2" node_id="<?php echo $contraller['id']; ?>"/>
+                                                           <?php echo $contraller['title']; ?>
+                                                </label>
+                                                <?php if(isset($contraller['childs'])&&is_array($contraller['childs'])) { ?>
+                                                <li class="action">└─
+                                                    <?php foreach($contraller['childs'] as $action) { ?>
+                                                    <label title="<?php echo $action['title']; ?>">
+                                                        <input class="action" <?php if(in_array($action['id'], $access)){echo 'checked';}?> type="checkbox" name="<?php echo $action['title']; ?>" value="true" level="3" node_id="<?php echo $action['id']; ?>" />
+                                                               <?php echo $action['title']; ?>
+                                                    </label>
+                                                    <?php }  ?>
+                                                </li>
+                                                <?php } ?>
+                                            </ol>
+
+                                            <?php } } ?>
+                                    </ul> 
+                                </div>   
+                            </div>
+                        </td>
+                    </tr>
+                    {/if}
+                    <tr>
+                        <td colspan="4">
+                            <div class="row buttons" style="text-align: center; width: 100%; padding: 0;">
+                                {if condition=" $type=='add'"}
+                                <input name="inputid" id="inputid" class="btn" type="submit" value="保存" />
+                                {/if}
+                                {if condition=" $type=='edit'"}
+                                <input name="inputid" id="inputid" class="btn" type="submit" value="保存" />
+                                {/if}
+                                <input name="inputid" id="inputid" type="button" class="btn" value="返回" onclick="location.href='?m=user&a=index'" />
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        var id =$('#user_id').val();
+        $('input.contraller:checkbox, input.action:checkbox').live('click',function(){
+            if($(this).is(':checked'))
+                var action = 'insert_access';
+            else 
+                var action = 'delete_access';
+            $.ajax({
+                type: 'POST',
+                url: '?m=user&a='+action,
+                data: {user_id:id,level:$(this).attr('level'),node_id:$(this).attr('node_id')},
+                dataType: 'json',
+                success: function(){}
+            });
+        });
+    
+        $('input.contraller:checkbox').live('click',function(){
+            if($(this).is(':checked')){
+                $(this).parents('ol').find('input.action:checkbox:not(:checked)').each(function(index,val){
+                    $(val).attr('checked',true);
+                    $.ajax({
+                        type: 'POST',
+                        url: '?m=user&a=insert_access',
+                        data: {user_id:id,level:$(val).attr('level'),node_id:$(val).attr('node_id')},
+                        dataType: 'json',
+                        success: function(){}
+                    });
+                });
+            } else {
+                $(this).parents('ol').find('input.action:checked').each(function(index,val){
+                    $(val).attr('checked',false);
+                    $.ajax({
+                        type: 'POST',
+                        url: '?m=user&a=delete_access',
+                        data: {user_id:id,level:$(val).attr('level'),node_id:$(val).attr('node_id')},
+                        dataType: 'json',
+                        success: function(){}
+                    });
+                });
+            }
+        });
+    
+        $('input.action:checkbox').live('click',function(){
+            var contraller = $(this).parents('ol').find('input.contraller:checkbox').eq(0);
+            if($(this).is(':checked')){
+                if($(contraller).is(':checked')==false){
+                    $(contraller).attr('checked',true);
+                    $.ajax({
+                        type: 'POST',
+                        url: '?m=user&a=insert_access',
+                        data: {user_id:id,level:$(contraller).attr('level'),node_id:$(contraller).attr('node_id')},
+                        dataType: 'json',
+                        success: function(){}
+                    });
+                }
+            }else{
+                if($(contraller).is(':checked')==true){
+                    var status = false;
+                    $(this).parents('ol').find('input.action:checked').each(function(index,val){
+                        if($(val).is(':checked')) status = true;
+                    });
+                    if(status === false){
+                        $(contraller).attr('checked',false);
+                        $.ajax({
+                            type: 'POST',
+                            url: '?m=user&a=delete_access',
+                            data: {user_id:1,level:$(contraller).attr('level'),node_id:$(contraller).attr('node_id')},
+                            dataType: 'json',
+                            success: function(){}
+                        });
+                    }
+                }
+            }
+        });
+    
+    </script>
